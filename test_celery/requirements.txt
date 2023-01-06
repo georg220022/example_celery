@@ -9,7 +9,7 @@ click-plugins==1.1.1
 click-repl==0.2.0
 Django==4.1.4
 django-redis==5.2.0
-gunicorn==20.1.0
+# gunicorn==20.1.0 222221dwecwf
 kombu==5.2.4
 prompt-toolkit==3.0.36
 psycopg-binary==3.1.6

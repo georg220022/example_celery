@@ -4,12 +4,15 @@ services:
 
   web:
     container_name: web
+    image: web:latest
     build:
       context: test_celery/.
       dockerfile: Dockerfile
     restart: always
     depends_on:
       - redis_db
+    ports:
+      - 8000:8000
 
   redis_db:
     container_name: redis_db
@@ -22,32 +25,17 @@ services:
   
   celery:
     container_name: celery
-    build:
-      context: test_celery/.
-      dockerfile: Dockerfile
+    image: web:latest
     command: celery -A test_celery worker
     restart: always
     depends_on:
-      - redis_db
+      - web
 
   celery-beat:
     container_name: celery-beat
-    build:
-      context: test_celery/.
-      dockerfile: Dockerfile
+    image: web:latest
     command: celery -A test_celery beat
     restart: always
-    depends_on:
-      - redis_db
-
-  nginx:
-    container_name: nginx
-    image: nginx:latest
-    restart: always
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - web
 
